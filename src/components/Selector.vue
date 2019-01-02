@@ -1,25 +1,20 @@
 <template>
   <form>
     <slot></slot>
-    <select v-model="selected" @change="onChange">
-      <option v-for="(value, index) in values" :value="value">{{value}}</option>
+    <select @change="onChange" :selected="values[0]">
+      <option v-for="(value, index) in values" :key="index" :value="value">{{value}}</option>
     </select>
   </form>
 </template>
 
 <script>
 export default {
-  props: ['values'],
-
-  data() {
-    return {
-      selected: this.values[0]
-    };
-  },
+  props: ["values"],
 
   methods: {
-    onChange: function() {
-      this.$emit('onChange', this.selected);
+    onChange(evt) {
+      console.log(evt);
+      this.$emit("onChange", evt.target.value);
     }
   }
 };

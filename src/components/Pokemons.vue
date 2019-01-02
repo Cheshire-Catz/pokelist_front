@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import pokedex from '@/components/Pokedex.vue';
-import selector from '@/components/Selector.vue';
-import axios from 'axios';
+import pokedex from "@/components/Pokedex.vue";
+import selector from "@/components/Selector.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -23,29 +23,29 @@ export default {
     return {
       pokemons: [],
       types: [
-        'any',
-        'none',
-        'grass',
-        'poison',
-        'fire',
-        'flying',
-        'water',
-        'bug',
-        'normal',
-        'electric',
-        'psychic',
-        'ground',
-        'fairy',
-        'ice',
-        'steel',
-        'dark',
-        'fighting',
-        'rock',
-        'ghost',
-        'dragon'
+        "any",
+        "none",
+        "grass",
+        "poison",
+        "fire",
+        "flying",
+        "water",
+        "bug",
+        "normal",
+        "electric",
+        "psychic",
+        "ground",
+        "fairy",
+        "ice",
+        "steel",
+        "dark",
+        "fighting",
+        "rock",
+        "ghost",
+        "dragon"
       ],
-      type1: 'any',
-      type2: 'any'
+      type1: "any",
+      type2: "any"
     };
   },
 
@@ -55,9 +55,11 @@ export default {
 
   methods: {
     fetchItems() {
-      axios.get(`http://localhost:4000/pokemons/${this.type1}/${this.type2}`).then(response => {
-        this.pokemons = response.data;
-      });
+      axios
+        .get(`http://localhost:4000/pokemons/${this.type1}/${this.type2}`)
+        .then(response => {
+          this.pokemons = response.data;
+        });
     },
 
     type1OnChange(selected) {
