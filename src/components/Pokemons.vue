@@ -1,8 +1,8 @@
 <template>
   <div>
-    <selector :values="types" @onChange="type1OnChange">Primary type</selector>
+    <selector :values="types" @onChange="primaryTypeOnChange">Primary type</selector>
     <br>
-    <selector :values="types" @onChange="type2OnChange">Secondary type</selector>
+    <selector :values="types" @onChange="secondaryTypeOnChange">Secondary type</selector>
     <br>
     <pokedex :pokemons="pokemons"></pokedex>
   </div>
@@ -11,7 +11,7 @@
 <script>
 import pokedex from "@/components/Pokedex.vue";
 import selector from "@/components/Selector.vue";
-import axios from "axios";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   components: {
@@ -19,58 +19,32 @@ export default {
     pokedex
   },
 
-  data() {
-    return {
-      pokemons: [],
-      types: [
-        "any",
-        "none",
-        "grass",
-        "poison",
-        "fire",
-        "flying",
-        "water",
-        "bug",
-        "normal",
-        "electric",
-        "psychic",
-        "ground",
-        "fairy",
-        "ice",
-        "steel",
-        "dark",
-        "fighting",
-        "rock",
-        "ghost",
-        "dragon"
-      ],
-      type1: "any",
-      type2: "any"
-    };
-  },
+  computed: Object.assign(
+    {},
+    mapState("pokemons", {
+      pokemons: state => state.list,
+      types: state => state.allTypes
+    })
+  ),
 
   created() {
-    this.fetchItems();
+    this.fetchPokemons();
   },
 
-  methods: {
-    fetchItems() {
-      axios
-        .get(`http://localhost:4000/pokemons/${this.type1}/${this.type2}`)
-        .then(response => {
-          this.pokemons = response.data;
-        });
-    },
+  methods: Object.assign(
+    {
+      primaryTypeOnChange(value) {
+        this.setPrimaryType(value);
+        this.fetchPokemons();
+      },
 
-    type1OnChange(selected) {
-      this.type1 = selected;
-      this.fetchItems();
+      secondaryTypeOnChange(value) {
+        this.setSecondaryType(value);
+        this.fetchPokemons();
+      }
     },
-
-    type2OnChange(selected) {
-      this.type2 = selected;
-      this.fetchItems();
-    }
-  }
+    mapMutations("pokemons", ["setPrimaryType", "setSecondaryType"]),
+    mapActions("pokemons", ["fetchPokemons"])
+  )
 };
 </script>
